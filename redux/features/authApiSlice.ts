@@ -52,7 +52,7 @@ const authApiSlice = apiSlice.injectEndpoints({
 				password,
 				re_password,
 			}) => ({
-				url: 'api/users/',
+				url: '/users/',
 				method: 'POST',
 				body: { first_name, last_name, email, password, re_password },
 			}),
