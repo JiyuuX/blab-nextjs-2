@@ -17,19 +17,16 @@ interface CreateUserResponse {
 	user: User;
 }
 
+const API_URL = 'https://devran.pythonanywhere.com/api';
+
 const authApiSlice = apiSlice.injectEndpoints({
 	endpoints: builder => ({
 		retrieveUser: builder.query<User, void>({
-			query: () => '/users/me/',
+			query: () => `${API_URL}/users/me/`,
 		}),
-		socialAuthenticate: builder.mutation<
-			CreateUserResponse,
-			SocialAuthArgs
-		>({
+		socialAuthenticate: builder.mutation<CreateUserResponse, SocialAuthArgs>({
 			query: ({ provider, state, code }) => ({
-				url: `/o/${provider}/?state=${encodeURIComponent(
-					state
-				)}&code=${encodeURIComponent(code)}`,
+				url: `${API_URL}/o/${provider}/?state=${encodeURIComponent(state)}&code=${encodeURIComponent(code)}`,
 				method: 'POST',
 				headers: {
 					Accept: 'application/json',
@@ -39,53 +36,47 @@ const authApiSlice = apiSlice.injectEndpoints({
 		}),
 		login: builder.mutation({
 			query: ({ email, password }) => ({
-				url: '/jwt/create/',
+				url: `${API_URL}/jwt/create/`,
 				method: 'POST',
 				body: { email, password },
 			}),
 		}),
 		register: builder.mutation({
-			query: ({
-				first_name,
-				last_name,
-				email,
-				password,
-				re_password,
-			}) => ({
-				url: '/users/',
+			query: ({ first_name, last_name, email, password, re_password }) => ({
+				url: `${API_URL}/users/`,
 				method: 'POST',
 				body: { first_name, last_name, email, password, re_password },
 			}),
 		}),
 		verify: builder.mutation({
 			query: () => ({
-				url: '/jwt/verify/',
+				url: `${API_URL}/jwt/verify/`,
 				method: 'POST',
 			}),
 		}),
 		logout: builder.mutation({
 			query: () => ({
-				url: '/logout/',
+				url: `${API_URL}/logout/`,
 				method: 'POST',
 			}),
 		}),
 		activation: builder.mutation({
 			query: ({ uid, token }) => ({
-				url: '/users/activation/',
+				url: `${API_URL}/users/activation/`,
 				method: 'POST',
 				body: { uid, token },
 			}),
 		}),
 		resetPassword: builder.mutation({
 			query: email => ({
-				url: '/users/reset_password/',
+				url: `${API_URL}/users/reset_password/`,
 				method: 'POST',
 				body: { email },
 			}),
 		}),
 		resetPasswordConfirm: builder.mutation({
 			query: ({ uid, token, new_password, re_new_password }) => ({
-				url: '/users/reset_password_confirm/',
+				url: `${API_URL}/users/reset_password_confirm/`,
 				method: 'POST',
 				body: { uid, token, new_password, re_new_password },
 			}),
@@ -104,3 +95,4 @@ export const {
 	useResetPasswordMutation,
 	useResetPasswordConfirmMutation,
 } = authApiSlice;
+
