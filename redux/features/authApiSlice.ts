@@ -17,7 +17,7 @@ interface CreateUserResponse {
 	user: User;
 }
 
-const API_URL = 'https://devran.pythonanywhere.com/api';
+const API_URL = 'https://devran.pythonanywhere.com';
 
 const authApiSlice = apiSlice.injectEndpoints({
 	endpoints: builder => ({
